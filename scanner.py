@@ -2,8 +2,25 @@ from pyzbar import pyzbar
 import cv2
 
 
+def stream_scan():
+    cap = cv2.VideoCapture(0)
+    while True:
+        # read the frame from the camera
+        _, frame = cap.read()
+        # decode detected barcodes & get the image
+        # that is drawn
+        frame = decode(frame)
+        # show the image in the window
+        cv2.imshow("frame", frame)
+        if cv2.waitKey(1) == ord("q"):
+            break
+
+
 def decode(image):
     # decodes all barcodes from an image
+
+    # print("DECODE WORKS")
+
     decoded_objects = pyzbar.decode(image)
     for obj in decoded_objects:
         # draw the barcode

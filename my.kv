@@ -1,0 +1,18 @@
+<MyRoot>:
+    random_label: random_label
+    BoxLayout:
+        orientation: "vertical"
+        Label:
+            text: "Сканер штрихкода"
+            font_size: 30
+            color: 0, 0.62, 0.96
+
+        Label:
+            id: random_label
+            text: "Для актвиации камеры нажмите на кнопку"
+            font_size: 15
+
+        Button:
+            text: "Камера"
+            font_size: 15
+            on_press: root.generate_number()

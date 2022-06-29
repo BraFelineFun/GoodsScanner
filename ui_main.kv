@@ -1,0 +1,64 @@
+WindowManager:
+    WelcomeScreen:
+    ScanScreen:
+
+
+
+<WelcomeScreen>:
+    name: "first"
+
+    BoxLayout:
+        orientation: "vertical"
+        pos_hint: {'center_x':0.5, 'center_y': 0.5}
+        size_hint: .8, .3
+        Label:
+            color: 0/255.0, 86/255.0, 145/255.0, 1
+            text: "Goods Scanner"
+            font_size: 30
+
+        Button:
+            background_normal: ''
+            background_color: (0, 0, 0, 1)
+            text: "Start Scan"
+            font_size: 20
+
+            on_release:
+                app.root.current = "ScanScreen"
+                root.manager.transition.direction = "left"
+
+<ScanScreen>:
+    name: "ScanScreen"
+    orientation: 'vertical'
+
+    BoxLayout:
+        orientation: 'vertical'
+
+        BoxLayout:
+            orientation: 'horizontal'
+            size_hint: 1, .1
+            Button:
+                text: 'BarCode'
+            Button:
+                text: 'QR-Code'
+            Button:
+                text: 'DataMatrix'
+
+        Camera:
+            id: camera
+            resolution: (1280, 720)
+            play: False
+            #on_load: camera.play = True
+
+        ToggleButton:
+            text: 'Play'
+            on_press: camera.play = not camera.play
+            size_hint_y: None
+            height: '48dp'
+
+
+
+        Button:
+            text: "StartScan"
+            size_hint_y: None
+            height: '48dp'
+            on_press: root.startScan()

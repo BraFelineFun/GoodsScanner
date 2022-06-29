@@ -49,25 +49,46 @@ WindowManager:
             font_size: 32
             on_release:
                 app.root.current = "camera"
-                root.manager.transition.direction = "right"
+                root.manager.transition.direction = "left"
 
 <CameraScreen>
     name: "camera"
     orientation: 'vertical'
-    Button:
-        text: 'GoBack'
-        height: '48dp'
-        on_press: app.root.current = "second"
-    Camera:
-        id: camera
-        resolution: (640, 480)
-        play: True
 
-    Button:
-        text: "StartScan"
-        size_hint_y: None
-        height: '48dp'
-        on_press: root.startScan()
+    #Camera:
+        #id: camera
+       # resolution: (640, root.width)
+        #play: False
+        ##on_load: camera.play = True
+
+    BoxLayout:
+        orientation: 'vertical'
+
+        Camera:
+            id: camera
+            resolution: (1280, 720)
+            play: False
+            #on_load: camera.play = True
+
+        ToggleButton:
+            text: 'Play'
+            on_press: camera.play = not camera.play
+            size_hint_y: None
+            height: '48dp'
+
+        Button:
+            text: 'GoBack'
+            size_hint_y: None
+            height: '48dp'
+            on_press:
+                app.root.current = "second"
+                root.manager.transition.direction = "right"
+
+        Button:
+            text: "StartScan"
+            size_hint_y: None
+            height: '48dp'
+            on_press: root.startScan()
 
 <ReportScreen>
     name: "report"

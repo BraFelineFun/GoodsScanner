@@ -1,7 +1,6 @@
 from scanner import stream_scan, decode
 from pyzbar import pyzbar
 from kivy.app import App
-from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.lang import Builder
 import cv2

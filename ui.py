@@ -1,14 +1,16 @@
+from kivymd.theming import ThemeManager
 from scanner import stream_scan, decode
+
 from pyzbar import pyzbar
-from kivy.app import App
 from kivy.uix.screenmanager import ScreenManager, Screen
-from kivy.core.window import Window
 from kivy.lang import Builder
+from kivymd.app import MDApp
+
 import cv2
 import time
 import os
 
-Window.clearcolor = (208/255.0, 208/255.0, 208/255.0, 1)
+
 
 class WelcomeScreen(Screen):
     pass
@@ -44,16 +46,15 @@ class WindowManager(ScreenManager):
     pass
 
 
-kv = Builder.load_file('ui_main.kv')
+class MyApp(MDApp):
 
+    def __init__(self, **kwargs):
+        self.title = "My Material Application"
+        super().__init__(**kwargs)
 
-class MyApp(App):
     def build(self):
-        return kv
+        self.theme_cls.primary_palette = "Blue"
+        self.theme_cls.primary_hue = "500"
+        self.theme_cls.theme_style = "Dark"
+        self.root = Builder.load_file('ui_main.kv')
 
-# class MyRoot(BoxLayout):
-#     def __init__(self):
-#         super(MyRoot, self).__init__()
-#
-#     def generate_number(self):
-#         stream_scan()

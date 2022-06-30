@@ -1,3 +1,7 @@
+#:import MDRectangleFlatButton kivymd.uix.button
+#:import MDBoxLayout kivymd.uix.boxlayout
+#:import MDFlatButton kivymd.uix.button
+#:import MDIconButton kivymd.uix.button
 WindowManager:
     WelcomeScreen:
     ScanScreen:
@@ -6,7 +10,6 @@ WindowManager:
 
 <WelcomeScreen>:
     name: "first"
-
     BoxLayout:
         orientation: "vertical"
         pos_hint: {'center_x':0.5, 'center_y': 0.5}
@@ -16,49 +19,73 @@ WindowManager:
             text: "Goods Scanner"
             font_size: 30
 
-        Button:
-            background_normal: ''
-            background_color: (0, 0, 0, 1)
+        MDRectangleFlatButton:
             text: "Start Scan"
-            font_size: 20
-
+            pos_hint: {"center_x": .5}
+            font_size: 35
             on_release:
                 app.root.current = "ScanScreen"
                 root.manager.transition.direction = "left"
 
+
 <ScanScreen>:
     name: "ScanScreen"
     orientation: 'vertical'
-
     BoxLayout:
         orientation: 'vertical'
 
-        BoxLayout:
+        MDBoxLayout:
             orientation: 'horizontal'
-            size_hint: 1, .1
-            Button:
+            adaptive_height: True
+            theme_text_color: "Custom"
+            md_bg_color: 0/255.0, 86/255.0, 145/255.0, 1
+            text_color: 255/255.0, 255/255.0, 255/255.0, 1
+            MDFlatButton:
+                size_hint_x: None
                 text: 'BarCode'
-            Button:
+                theme_text_color: "Custom"
+                text_color: 255/255.0, 255/255.0, 255/255.0, 1
+            MDFlatButton:
+                size_hint_x: None
                 text: 'QR-Code'
-            Button:
+                theme_text_color: "Custom"
+                text_color: 255/255.0, 255/255.0, 255/255.0, 1
+            MDFlatButton:
+                size_hint_y: None
                 text: 'DataMatrix'
+                theme_text_color: "Custom"
+                text_color: 255/255.0, 255/255.0, 255/255.0, 1
+            Button:
+                text: "Report"
+                background_normal: ''
+                background_color: 189/255.0, 0, 0, 1
+        FloatLayout:
+            Camera:
+                id: camera
+                resolution: (1280, 720)
+                play: False
+                #on_load: camera.play = True
 
-        Camera:
-            id: camera
-            resolution: (1280, 720)
-            play: False
-            #on_load: camera.play = True
-
-        ToggleButton:
-            text: 'Play'
-            on_press: camera.play = not camera.play
-            size_hint_y: None
-            height: '48dp'
+            MDIconButton:
+                pos_hint: {'center_x': .5, 'center_y': .2}
+                elevation_normal: 8
+                md_bg_color: app.theme_cls.primary_color
+                icon: "camera-iris"
+                on_press: camera.play = not camera.play
 
 
 
-        Button:
-            text: "StartScan"
-            size_hint_y: None
-            height: '48dp'
-            on_press: root.startScan()
+
+#        ToggleButton:
+#            text: 'Play'
+#            on_press: camera.play = not camera.play
+#            size_hint_y: None
+#            height: '48dp'
+#
+#
+#
+#        Button:
+#            text: "StartScan"
+#            size_hint_y: None
+#            height: '48dp'
+#            on_press: root.startScan()

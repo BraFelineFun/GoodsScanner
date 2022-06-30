@@ -1,10 +1,14 @@
 #:import MDRectangleFlatButton kivymd.uix.button
 #:import MDBoxLayout kivymd.uix.boxlayout
 #:import MDFlatButton kivymd.uix.button
-#:import MDIconButton kivymd.uix.button
+#:import MDLabel kivymd.uix.label
+#:import MDTextField kivymd.uix.textfield
+
+
 WindowManager:
     WelcomeScreen:
     ScanScreen:
+    ReportScreen:
 
 
 
@@ -59,10 +63,13 @@ WindowManager:
                 text: "Report"
                 background_normal: ''
                 background_color: 189/255.0, 0, 0, 1
+                on_release:
+                    app.root.current = "ReportScreen"
+                    root.manager.transition.direction = "left"
         FloatLayout:
             Camera:
                 id: camera
-                resolution: (1280, 720)
+                resolution: (1080, 1920)
                 play: False
                 #on_load: camera.play = True
 
@@ -73,19 +80,83 @@ WindowManager:
                 icon: "camera-iris"
                 on_press: camera.play = not camera.play
 
+<ReportScreen>:
+    name: "ReportScreen"
+    BoxLayout:
+        spacing: "10dp"
+        orientation: "vertical"
+        pos_hint: {'center_x':0.5, 'center_y': 0.5}
+        size_hint: .9, 0.8
+
+        MDBoxLayout:
+            md_bg_color: app.theme_cls.primary_dark
+            size_hint: 1, 0.06
+            MDFlatButton:
+                text: "Back"
+                on_release:
+                    app.root.current = "ScanScreen"
+                    root.manager.transition.direction = "right"
+
+        MDBoxLayout:
+            size_hint: 1, 0.2
+            orientation: "vertical"
+            md_bg_color: app.theme_cls.primary_light
+            MDLabel:
+                font_style: "Subtitle1"
+                theme_text_color: "Custom"
+                text_color: 0, 0, 0, 1
+                text: "UserName:"
+            MDTextField:
+                required: True
+                theme_text_color: "Custom"
+                text_color: 0, 0, 0, 1
+                hint_text: "UserName"
+                mode: "fill"
+
+        MDBoxLayout:
+            size_hint: 1, 0.2
+            orientation: "vertical"
+            md_bg_color: app.theme_cls.primary_light
+            MDLabel:
+                font_style: "Subtitle1"
+                theme_text_color: "Custom"
+                text_color: 0, 0, 0, 1
+                text: "Stuff:"
+            MDTextField:
+                required: True
+                theme_text_color: "Custom"
+                text_color: 0, 0, 0, 1
+                hint_text: "Stuff"
+                mode: "fill"
+
+        MDBoxLayout:
+            md_bg_color: app.theme_cls.primary_dark
+            size_hint: 1, 0.05
+        MDBoxLayout:
+            size_hint: 1, 0.5
+            orientation: "vertical"
+            md_bg_color: app.theme_cls.primary_light
+
+            MDLabel:
+                font_style: "Subtitle1"
+                theme_text_color: "Custom"
+                text_color: 0, 0, 0, 1
+                text: "Description:"
 
 
-
-#        ToggleButton:
-#            text: 'Play'
-#            on_press: camera.play = not camera.play
-#            size_hint_y: None
-#            height: '48dp'
-#
-#
-#
-#        Button:
-#            text: "StartScan"
-#            size_hint_y: None
-#            height: '48dp'
-#            on_press: root.startScan()
+            MDTextField:
+                multiline: True
+                mode: "fill"
+                max_text_length: 300
+                required: True
+                theme_text_color: "Custom"
+                text_color: 0, 0, 0, 1
+                hint_text: "Description"
+        MDBoxLayout:
+            md_bg_color: app.theme_cls.primary_dark
+            size_hint: 1, 0.06
+            MDFlatButton:
+                theme_text_color: "Custom"
+                text_color: 1, 0, 0, 1
+                font_style: "Subtitle1"
+                text: "REPORT"

@@ -43,6 +43,7 @@ WindowManager:
             MDFlatButton:
                 size_hint_x: None
                 text: 'BarCode'
+                on_press: root.startScan()
                 theme_text_color: "Custom"
                 text_color: 255/255.0, 255/255.0, 255/255.0, 1
             MDFlatButton:
@@ -55,6 +56,8 @@ WindowManager:
                 text: 'DataMatrix'
                 theme_text_color: "Custom"
                 text_color: 255/255.0, 255/255.0, 255/255.0, 1
+                on_press: root.doScanMatrix()
+
             Button:
                 text: "Report"
                 background_normal: ''
@@ -62,7 +65,7 @@ WindowManager:
         FloatLayout:
             Camera:
                 id: camera
-                resolution: (1280, 720)
+                #resolution: (720, 1280)
                 play: False
                 #on_load: camera.play = True
 

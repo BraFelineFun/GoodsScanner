@@ -1,8 +1,6 @@
 from scanner import stream_scan
 from ui import MyApp
-import cv2
-from glob import glob
-from DTMTRX import datamatrix, datamatrixTrue
+from DTMTRX import datamatrix
 
 
 if __name__ == '__main__':

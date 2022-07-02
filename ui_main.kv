@@ -3,6 +3,7 @@
 #:import MDFlatButton kivymd.uix.button
 #:import MDLabel kivymd.uix.label
 #:import MDTextField kivymd.uix.textfield
+#:import XCamera kivy_garden.xcamera
 
 
 WindowManager:
@@ -33,6 +34,7 @@ WindowManager:
             font_size: 35
             on_release:
                 app.root.current = "ScanScreen"
+                #root.askPerm()
                 root.manager.transition.direction = "left"
 
 
@@ -57,6 +59,7 @@ WindowManager:
             MDFlatButton:
                 size_hint_x: None
                 text: 'QR-Code'
+                on_press: root.startScan()
                 theme_text_color: "Custom"
                 text_color: 255/255.0, 255/255.0, 255/255.0, 1
             MDFlatButton:
@@ -74,11 +77,23 @@ WindowManager:
                     app.root.current = "ReportScreen"
                     root.manager.transition.direction = "left"
         FloatLayout:
-            Camera:
+            orientation: 'vertical'
+            XCamera:
+               # orientation: 'vertical'
                 id: camera
-                #resolution: (720, 1280)
-                play: False
+                play: True
                 #on_load: camera.play = True
+                canvas.before:
+                    PushMatrix
+                    Rotate:
+                        angle: -90
+                        axis: 0,0,1
+                        #origin: root.width/2, root.height/2
+                        origin: self.center
+                canvas.after:
+                    PopMatrix
+
+
             MDIconButton:
                 pos_hint: {'center_x': .5, 'center_y': .2}
                 elevation_normal: 8
@@ -86,7 +101,6 @@ WindowManager:
                 icon: "magnify-scan"
                 user_font_size: "50sp"
                 on_press: camera.play = not camera.play
-
 
 <ReportScreen>:
     name: "ReportScreen"

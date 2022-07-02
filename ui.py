@@ -10,9 +10,9 @@ import cv2
 import time
 import os
 
-
-dataBase = {"b'5055856412670'": "Тип Штрих кода: EAN13\nСтрана производитель: Великобритания\nИгровой диск Dishonored 2",
-            "b'0711719843948'": "Тип Штрих кода: EAN13\nСтрана производитель: США или Канада\nИгровой диск BloodBorne"}
+dataBase = {
+    "b'5055856412670'": "Тип Штрих кода: EAN13\nСтрана производитель: Великобритания\nИгровой диск Dishonored 2",
+    "b'0711719843948'": "Тип Штрих кода: EAN13\nСтрана производитель: США/Канада\nИгровой диск BloodBorne"}
 
 
 class WelcomeScreen(Screen):
@@ -27,7 +27,7 @@ class ScanScreen(Screen):
     def showData(self, obj):
         value = dataBase.get(str(obj))
         if value is not None:
-            dialog = MDDialog(text = str(value))
+            dialog = MDDialog(text=str(value))
             dialog.open()
         else:
             dialog = MDDialog(text=str(obj))
@@ -38,7 +38,7 @@ class ScanScreen(Screen):
         timestr = time.strftime("%Y%m%d_%H%M%S")
         name = "IMG_{}.png".format(timestr)
         camera.export_to_png(name)  # "IMG_{}.png".format(timestr))
-        if(platform == "android"):
+        if (platform == "android"):
             frame = cv2.imread("/data/data/org.test.contafactapp/files/IMG_{}.png".format(timestr))
         else:
             frame = cv2.imread(name)
@@ -61,8 +61,8 @@ class ScanScreen(Screen):
         timestr = time.strftime("%Y%m%d_%H%M%S")
         name = "IMG_{}.png".format(timestr)
         camera.export_to_png(name)  # "IMG_{}.png".format(timestr))
-        #data = datamatrix(name)
-        #self.showData((str(data)))
+        # data = datamatrix(name)
+        # self.showData((str(data)))
         os.remove(name)
 
 
@@ -73,7 +73,7 @@ class WindowManager(ScreenManager):
 class MyApp(MDApp):
 
     def __init__(self, **kwargs):
-        self.title = "My Material Application"
+        self.title = "GoodsScanner"
         super().__init__(**kwargs)
 
     def build(self):
@@ -81,4 +81,3 @@ class MyApp(MDApp):
         self.theme_cls.primary_hue = "500"
         self.theme_cls.theme_style = "Dark"
         self.root = Builder.load_file('ui_main.kv')
-

@@ -4,8 +4,8 @@ from kivy.lang import Builder
 from kivymd.app import MDApp
 from kivymd.uix.dialog import MDDialog
 from kivy import platform
-from DTMTRX import datamatrix
-
+from DataMTRX import datamatrix
+from kivy_garden import xcamera
 import cv2
 import time
 import os
@@ -39,7 +39,7 @@ class ScanScreen(Screen):
         name = "IMG_{}.png".format(timestr)
         camera.export_to_png(name)  # "IMG_{}.png".format(timestr))
         if(platform == "android"):
-            frame = cv2.imread("/data/data/org.test.contafactapp/files/IMG_{}.png".format(timestr))
+            frame = cv2.imread("/data/data/org.test.contafactapp/files/{}".format(name))
         else:
             frame = cv2.imread(name)
         data = ""
@@ -52,7 +52,11 @@ class ScanScreen(Screen):
             print("Данные:", obj.data)
             data = obj.data
             print()
-        os.remove(name)
+        if(platform == "android"):
+            os.remove("/data/data/org.test.contafactapp/files/{}".format(name))
+        else:
+            os.remove(name)
+
         if data != "":
             self.showData(str(data))
 
@@ -61,9 +65,15 @@ class ScanScreen(Screen):
         timestr = time.strftime("%Y%m%d_%H%M%S")
         name = "IMG_{}.png".format(timestr)
         camera.export_to_png(name)  # "IMG_{}.png".format(timestr))
-        #data = datamatrix(name)
-        #self.showData((str(data)))
-        os.remove(name)
+        if platform =="android":
+            data = datamatrix("/data/data/org.test.contafactapp/files/{}".format(name))
+        else:
+            data = datamatrix(name)
+        self.showData((str(data)))
+        if (platform == "android"):
+            os.remove("/data/data/org.test.contafactapp/files/{}".format(name))
+        else:
+            os.remove(name)
 
 
 class WindowManager(ScreenManager):
@@ -76,9 +86,20 @@ class MyApp(MDApp):
         self.title = "My Material Application"
         super().__init__(**kwargs)
 
+
+    def waitRequest(self):
+        from android.permissions import request_permissions, Permission
+        request_permissions(
+            [Permission.CAMERA, Permission.READ_EXTERNAL_STORAGE, Permission.WRITE_EXTERNAL_STORAGE])
+
     def build(self):
         self.theme_cls.primary_palette = "Blue"
         self.theme_cls.primary_hue = "500"
         self.theme_cls.theme_style = "Dark"
+        if platform == "android":
+            self.waitRequest()
         self.root = Builder.load_file('ui_main.kv')
+        # if platform == "android":
+        #     from android.permissions import request_permissions, Permission
+        #     request_permissions([Permission.CAMERA, Permission.READ_EXTERNAL_STORAGE, Permission.WRITE_EXTERNAL_STORAGE])
 

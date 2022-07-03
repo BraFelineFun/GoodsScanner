@@ -128,7 +128,9 @@ WindowManager:
                 theme_text_color: "Custom"
                 text_color: 0, 0, 0, 1
                 text: "Enter your user name:"
+
             MDTextField:
+                id: username
                 required: True
                 theme_text_color: "Custom"
                 text_color: 0, 0, 0, 1
@@ -144,7 +146,9 @@ WindowManager:
                 theme_text_color: "Custom"
                 text_color: 0, 0, 0, 1
                 text: "Enter product name:"
+
             MDTextField:
+                id: product
                 required: True
                 theme_text_color: "Custom"
                 text_color: 0, 0, 0, 1
@@ -165,8 +169,8 @@ WindowManager:
                 text_color: 0, 0, 0, 1
                 text: "Enter description of the problem:"
 
-
             MDTextField:
+                id: description
                 multiline: True
                 mode: "fill"
                 max_text_length: 300
@@ -174,6 +178,7 @@ WindowManager:
                 theme_text_color: "Custom"
                 text_color: 0, 0, 0, 1
                 hint_text: "Description"
+
         MDBoxLayout:
             md_bg_color: app.theme_cls.primary_dark
             size_hint: 1, 0.06
@@ -182,3 +187,4 @@ WindowManager:
                 text_color: 1, 0, 0, 1
                 font_style: "Subtitle1"
                 text: "REPORT"
+                on_release: root.createReport([username, product, description])

@@ -28,7 +28,7 @@ class UI:
             text_objs.append({"product": self.productCode})
             text_objs.append({"description": objs[2].text})
 
-            dialog = MDDialog(text=str(json.dumps(text_objs)))
+            dialog = MDDialog(text=str(json.dumps(text_objs, ensure_ascii=False)))
             dialog.open()
 
     class ScanScreen(Screen):

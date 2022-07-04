@@ -1,11 +1,11 @@
 import cv2
-#from pylibdmtx.pylibdmtx import decode
+from pylibdmtx.pylibdmtx import decode
 
 
 def datamatrix(image):
-     pass
-     #data = decode(cv2.imread(image))
-     #return data
+     #pass
+     data = decode(cv2.imread(image))
+     return data
     # cap = cv2.VideoCapture(0)
     # while True:
     #     ret, frame = cap.read()

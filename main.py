@@ -1,6 +1,5 @@
-from ui import MyApp
-
+from ui import UI
 
 if __name__ == '__main__':
-    MyApp().run()
+    UI.MyApp().run()
 

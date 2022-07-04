@@ -4,27 +4,29 @@ import cv2
 
 def stream_scan():
     cap = cv2.VideoCapture(0)
+    detector = cv2.QRCodeDetector()
     while True:
-        # read the frame from the camera
-        _, frame = cap.read()
-        # decode detected barcodes & get the image
-        # that is drawn
-        frame = decode(frame)
-        # show the image in the window
-        cv2.imshow("frame", frame)
-        if cv2.waitKey(1) == ord("q"):
+        # # read the frame from the camera
+        # # decode detected barcodes & get the image
+        # # that is drawn
+        ret, frame = cap.read()
+        # # decode detected barcodes & get the image
+        # # that is drawn
+        image = decode(frame)
+        if cv2.waitKey(1) == ord('q'):
             break
+        # # show the image in the window
+        cv2.imshow("img", image)
 
 
 def decode(image):
     # decodes all barcodes from an image
 
-    # print("DECODE WORKS")
-
+    # print("DECODE WORKS"
     decoded_objects = pyzbar.decode(image)
     for obj in decoded_objects:
         # draw the barcode
-        print(f"Обнаружен штрих-код:\n{obj}")
+        print(f"Обнаружен код:\n{obj}")
         image = draw_barcode(obj, image)
         # print barcode type & data
         print("Тип:", obj.type)

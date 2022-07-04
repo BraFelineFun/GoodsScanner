@@ -1,0 +1,186 @@
+#:import MDRectangleFlatButton kivymd.uix.button
+#:import MDBoxLayout kivymd.uix.boxlayout
+#:import MDFlatButton kivymd.uix.button
+#:import MDLabel kivymd.uix.label
+#:import MDTextField kivymd.uix.textfield
+#:import XCamera kivy_garden.xcamera
+
+
+WindowManager:
+    WelcomeScreen:
+    ScanScreen:
+    ReportScreen:
+
+
+
+<WelcomeScreen>:
+    name: "first"
+    BoxLayout:
+        orientation: "vertical"
+        pos_hint: {'center_x':0.5, 'center_y': 0.5}
+        size_hint: .8, .3
+        MDLabel:
+            font_style: "Subtitle1"
+            halign: 'center'
+            theme_text_color: "Custom"
+            text_color: 0/255.0, 86/255.0, 145/255.0, 1
+            text: "Goods Scanner"
+
+        MDRectangleFlatButton:
+            font_style: "Subtitle1"
+            text: "Start Scan"
+            pos_hint: {"center_x": .5}
+            on_release:
+                app.root.current = "ScanScreen"
+                #root.askPerm()
+                root.manager.transition.direction = "left"
+
+
+<ScanScreen>:
+    name: "ScanScreen"
+    orientation: 'vertical'
+    BoxLayout:
+        orientation: 'vertical'
+        MDBoxLayout:
+            orientation: 'horizontal'
+            adaptive_height: True
+            theme_text_color: "Custom"
+            md_bg_color: 0/255.0, 86/255.0, 145/255.0, 1
+            text_color: 255/255.0, 255/255.0, 255/255.0, 1
+            MDFlatButton:
+                size_hint_x: None
+                text: 'BarCode'
+                on_press: root.startScan()
+                theme_text_color: "Custom"
+                text_color: 255/255.0, 255/255.0, 255/255.0, 1
+            MDFlatButton:
+                size_hint_x: None
+                text: 'QR-Code'
+                on_press: root.startScan()
+                theme_text_color: "Custom"
+                text_color: 255/255.0, 255/255.0, 255/255.0, 1
+            MDFlatButton:
+                size_hint_y: None
+                text: 'DataMatrix'
+                theme_text_color: "Custom"
+                text_color: 255/255.0, 255/255.0, 255/255.0, 1
+                on_press: root.doScanMatrix()
+
+            Button:
+                text: "Report"
+                background_normal: ''
+                background_color: 189/255.0, 0, 0, 1
+                on_release:
+                    app.root.current = "ReportScreen"
+                    root.manager.transition.direction = "left"
+        FloatLayout:
+            orientation: 'vertical'
+            XCamera:
+               # orientation: 'vertical'
+                id: camera
+                play: False
+                #canvas.before:
+                    #PushMatrix
+                    #Rotate:
+                        #angle: -90
+                        #axis: 0,0,1
+                        #origin: root.width/2, root.height/2
+                        #origin: self.center
+                #canvas.after:
+                    #PopMatrix
+
+
+            MDIconButton:
+                pos_hint: {'center_x': .5, 'center_y': .3}
+                elevation_normal: 8
+                md_bg_color: app.theme_cls.primary_color
+                icon: "magnify-scan"
+                user_font_size: "35sp"
+                on_press: camera.play = not camera.play
+
+<ReportScreen>:
+    name: "ReportScreen"
+    BoxLayout:
+        spacing: "10dp"
+        orientation: "vertical"
+        pos_hint: {'center_x':0.5, 'center_y': 0.5}
+        size_hint: .9, 0.8
+
+        MDBoxLayout:
+            md_bg_color: app.theme_cls.primary_dark
+            size_hint: 1, 0.06
+            MDFlatButton:
+                text: "Back"
+                on_release:
+                    app.root.current = "ScanScreen"
+                    root.manager.transition.direction = "right"
+
+        MDBoxLayout:
+            size_hint: 1, 0.2
+            orientation: "vertical"
+            md_bg_color: app.theme_cls.primary_light
+            MDLabel:
+                font_style: "Subtitle1"
+                theme_text_color: "Custom"
+                text_color: 0, 0, 0, 1
+                text: "Enter your user name:"
+
+            MDTextField:
+                id: username
+                required: True
+                theme_text_color: "Custom"
+                text_color: 0, 0, 0, 1
+                hint_text: "UserName"
+                mode: "fill"
+
+        MDBoxLayout:
+            size_hint: 1, 0.2
+            orientation: "vertical"
+            md_bg_color: app.theme_cls.primary_light
+            MDLabel:
+                font_style: "Subtitle1"
+                theme_text_color: "Custom"
+                text_color: 0, 0, 0, 1
+                text: "Enter product name:"
+
+            MDTextField:
+                id: product
+                required: True
+                theme_text_color: "Custom"
+                text_color: 0, 0, 0, 1
+                hint_text: "Goods"
+                mode: "fill"
+
+        MDBoxLayout:
+            md_bg_color: app.theme_cls.primary_dark
+            size_hint: 1, 0.05
+        MDBoxLayout:
+            size_hint: 1, 0.5
+            orientation: "vertical"
+            md_bg_color: app.theme_cls.primary_light
+
+            MDLabel:
+                font_style: "Subtitle1"
+                theme_text_color: "Custom"
+                text_color: 0, 0, 0, 1
+                text: "Enter description of the problem:"
+
+            MDTextField:
+                id: description
+                multiline: True
+                mode: "fill"
+                max_text_length: 300
+                required: True
+                theme_text_color: "Custom"
+                text_color: 0, 0, 0, 1
+                hint_text: "Description"
+
+        MDBoxLayout:
+            md_bg_color: app.theme_cls.primary_dark
+            size_hint: 1, 0.06
+            MDFlatButton:
+                theme_text_color: "Custom"
+                text_color: 1, 0, 0, 1
+                font_style: "Subtitle1"
+                text: "REPORT"
+                on_release: root.createReport([username, product, description])
